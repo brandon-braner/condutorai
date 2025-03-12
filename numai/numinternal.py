@@ -3,9 +3,15 @@ import camelot
 import re
 import json
 import pandas as pd
-from numextract.config import get_settings
+from numai.config import get_settings
 # Function to standardize modifiers
 def standardize_modifier(modifier_text):
+    """
+    Standardizes various modifier text representations to a consistent format.
+    Args: modifier_text (str): A text representation of a numeric modifier.
+    
+    Returns: str: A standardized modifier ('Millions', 'Billions', 'Thousands', 'Percent', or 'None')."
+    """
     modifier_text = modifier_text.lower().strip()
     if modifier_text in ['million', 'millions', 'm', '$m']:
         return 'Millions'
@@ -20,6 +26,14 @@ def standardize_modifier(modifier_text):
 
 # Function to interpret the value based on raw value and modifier
 def interpret_value(raw_value, modifier):
+    """
+    Interprets the value based on raw value and modifier.
+    Args:
+        raw_value (str): The raw value extracted from the PDF.
+        modifier (str): The modifier extracted from the PDF.
+    Returns:
+        int or float: The interpreted value.
+    """
     try:
         # Remove commas and handle parentheses for negative numbers
         cleaned_value = raw_value.replace(',', '')
@@ -51,6 +65,13 @@ def interpret_value(raw_value, modifier):
 
 # Function to convert written numbers to digits
 def convert_written_number(text):
+    """
+    Converts written numbers to digits.
+    Args:
+        text (str): A string containing a written number.
+    Returns:
+        int or None: The corresponding digit if the text is a written number, otherwise None.
+    """
     number_words = {
         'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,
         'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9
@@ -62,6 +83,14 @@ def convert_written_number(text):
 
 # Function to extract numbers from text
 def extract_numbers_from_text(page, page_num):
+    """
+    Extracts numbers from text on a given page.
+    Args:
+        page: The page object from pdfplumber.
+        page_num (int): The page number.
+    Returns:
+        list: A list of dictionaries containing extracted numbers.
+    """
     text = page.extract_text()
     if not text:
         return []
@@ -116,6 +145,14 @@ def extract_numbers_from_text(page, page_num):
 
 # Function to extract numbers from tables
 def extract_numbers_from_tables(pdf_path, page_num):
+    """
+    Extracts numbers from tables on a given page.
+    Args:
+        pdf_path (str): The path to the PDF file.
+        page_num (int): The page number.
+    Returns:
+        list: A list of dictionaries containing extracted numbers.
+    """
     try:
         tables = camelot.read_pdf(pdf_path, pages=str(page_num+1), flavor='lattice')
     except Exception as e:
@@ -199,7 +236,21 @@ def extract_numbers_from_tables(pdf_path, page_num):
     return results
 
 # Main function to process the PDF
-def process_pdf(pdf_path):
+def process_pdf(pdf_path: str):
+    """
+        Process a PDF file to extract and analyze numerical values from text and tables.
+        
+        Args:
+            pdf_path (str): Path to the PDF file to be processed.
+        
+        Returns:
+            tuple[list, dict]: A tuple containing:
+                - A list of extracted number results with context and metadata
+                - The largest number found in the PDF (or None if no numbers found)
+        
+        Extracts numbers from both text and table formats, filters out invalid results,
+        and identifies the largest numerical value in the document.
+    """
     all_results = []
     
     with pdfplumber.open(pdf_path) as pdf:

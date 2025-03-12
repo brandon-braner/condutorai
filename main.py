@@ -1,7 +1,7 @@
-from numextract.numextract import numextract
-from numextract.config import get_settings
-from numextract.ai_provider import GeminiProvider
-from numextract.numinternal import process_local_pdf
+from numai.numai import Numai
+from numai.config import get_settings
+from numai.ai_provider import GeminiProvider
+from numai.numinternal import process_local_pdf
 import typer
 
 
@@ -34,7 +34,7 @@ def main(filename: str, mode: str = "internal"):
     if mode == "internal":
         print(process_local_pdf(filename))
     elif mode == "ai":
-        print(numai.process_ai_pdf(filename))
+        print(numai.process_local_pdf(filename))
 
 if __name__ == "__main__":
     typer.run(main)
