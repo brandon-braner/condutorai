@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from google import genai
 from google.genai import types
 
-from numai.schemas.response import ResponseModel
+from num_extract.schemas.response import ResponseModel
 
 
 class GenAIProvider(ABC):

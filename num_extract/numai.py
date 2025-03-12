@@ -1,4 +1,4 @@
-from numai.ai_provider import  GenAIProvider
+from num_extract.ai_provider import  GenAIProvider
 import json
 
 class Numai:

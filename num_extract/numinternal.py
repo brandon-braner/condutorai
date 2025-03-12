@@ -3,7 +3,7 @@ import camelot
 import re
 import json
 import pandas as pd
-from numai.config import get_settings
+from num_extract.config import get_settings
 # Function to standardize modifiers
 def standardize_modifier(modifier_text):
     """
