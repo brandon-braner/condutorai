@@ -1,7 +1,7 @@
-from numai.numai import Numai
-from numai.config import get_settings
-from numai.ai_provider import GeminiProvider
-from numai.numinternal import process_local_pdf
+from num_extract.numai import Numai
+from num_extract.config import get_settings
+from num_extract.ai_provider import GeminiProvider
+from num_extract.numinternal import process_local_pdf
 import typer
 
 
