@@ -45,4 +45,4 @@ You can run it by running `uv run python main.py "FY25 Air Force Working Capital
 The ai solution which is located in the `numai` directory in a file called `numai.py`.
 
 
-You can run it by running `uv run python main.py "FY25 Air Force Working Capital Fund.pdf" --ai` where the argument is the name of the file located in the data directory and the ai flag tells it to use the ai solution. You will need to have added an api key to the .env file.
+You can run it by running `uv run python main.py "FY25 Air Force Working Capital Fund.pdf" --mode ai` where the argument is the name of the file located in the data directory and the ai flag tells it to use the ai solution. You will need to have added an api key to the .env file.
