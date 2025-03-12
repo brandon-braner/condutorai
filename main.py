@@ -1,6 +1,8 @@
-from numai.numai import Numai
-from numai.config import get_settings
-from numai.ai_provider import GeminiProvider
+from numextract.numextract import numextract
+from numextract.config import get_settings
+from numextract.ai_provider import GeminiProvider
+from numextract.numinternal import process_local_pdf
+import typer
 
 
 def bootstrap():
@@ -11,9 +13,28 @@ def bootstrap():
         prompt=settings.prompt,
     )
 
-    return Numai(ai, settings.data_dir, settings.results_dir)
+    return Numai(
+        ai,
+        settings.data_dir,
+        settings.results_dir
+    )
 
+
+def main(filename: str, mode: str = "internal"):
+    """
+    Process a PDF and get the max number from the file.
+
+    Args:
+        filename (str): name of the file to process
+        mode (str, optional): The mode to run in internal or ai. Defaults to internal Can Also use ai.
+    """
+    # "FY25 Air Force Working Capital Fund.pdf"
+    numai = bootstrap()
+
+    if mode == "internal":
+        print(process_local_pdf(filename))
+    elif mode == "ai":
+        print(numai.process_ai_pdf(filename))
 
 if __name__ == "__main__":
-    numai = bootstrap()
-    print(numai.process_local_pdf("FY25 Air Force Working Capital Fund.pdf"))
+    typer.run(main)
